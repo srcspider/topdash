@@ -1,0 +1,6 @@
+# pnpm, npm
+node_modules
+dist
+
+# Windows, MacOS, etc
+.DS_Store

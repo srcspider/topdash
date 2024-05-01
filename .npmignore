@@ -1,0 +1,10 @@
+# typescript
+tsconfig.json
+tsup.config.ts
+
+# pnpm, npm
+node_modules
+src
+
+# Windows, MacOS, etc
+.DS_Store
