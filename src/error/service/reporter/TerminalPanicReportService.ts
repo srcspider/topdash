@@ -1,7 +1,6 @@
 import type { PanicReporterService } from "error/types/reporter"
 
-import { textBold, textDim } from "lib/cli/formatting"
-
+import { textBold, textDim } from "core/cli/formatting"
 import { LogLevel } from "core/logging"
 import { nil } from "core/nil"
 import { topdash } from "core/settings"

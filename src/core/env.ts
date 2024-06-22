@@ -1,15 +1,6 @@
-import {
-  textBold,
-  textErrorLabel,
-  textOkLabel,
-  textRed,
-} from "lib/cli/formatting"
 import { isEmpty } from "lib/util/isEmpty"
-import { keys } from "lib/util/keys"
 
-import { LogLevel } from "core/logging"
 import { nil } from "core/nil"
-import { topdash } from "core/settings"
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -31,11 +22,16 @@ export const ENV_ERRORS: {
  * You can also handle errors easily with hasEnvErrors and printEnvErrors
  */
 export function getenv<T = string>(input: {
+  prefix?: string
   name: string
-  defaultValue: string
+  defaultValue?: string
   parser?: (value: string) => { value: T; errors?: string[] }
 }): T {
-  let { name, defaultValue = "", parser } = input
+  let { prefix, name, defaultValue = "", parser } = input
+
+  if (prefix != nil) {
+    name = `${prefix}${name}`
+  }
 
   let value
   let env = process?.env
@@ -65,28 +61,4 @@ export function getenv<T = string>(input: {
  */
 export function hasEnvErrors() {
   return !isEmpty(ENV_ERRORS)
-}
-
-/**
- * Prints current state of environment errors.
- */
-export function printEnvErrorState() {
-  if (hasEnvErrors()) {
-    if (topdash.LOG_LEVEL >= LogLevel.Info) {
-      console.error()
-      for (let envName of keys(ENV_ERRORS)) {
-        console.error(`${textBold(envName)}`)
-        for (let error of ENV_ERRORS[envName]) {
-          console.error(` - ${textRed(error)}`)
-        }
-        console.error()
-      }
-
-      console.log(`${textErrorLabel("ERROR")} Envrionment Errors Detected`)
-    }
-  } else {
-    if (topdash.LOG_LEVEL >= LogLevel.Info) {
-      console.log(`${textOkLabel("PASSED")} No Environment Errors`)
-    }
-  }
 }

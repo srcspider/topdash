@@ -70,6 +70,13 @@ export enum PanicType {
    * operators later on, so it's good to create these errors and mark appropriatly.
    */
   Attack = 2 << 4,
+
+  /**
+   * Error can be tracked down to configuration error and is expected to go
+   * away as soon as configuration is fixed or similar initialization
+   * requirements are met.
+   */
+  ConfigurationError = 2 << 5,
 }
 
 /**
@@ -100,6 +107,10 @@ export function parsePanicType(type: PanicType | nil): string[] {
 
   if ((type & PanicType.Attack) != 0) {
     res.push("Attack")
+  }
+
+  if ((type & PanicType.ConfigurationError) != 0) {
+    res.push("ConfigurationError")
   }
 
   return res
